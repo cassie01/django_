@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static%}
+{#页面标题#}
+{% block title %}
+    {{ blog.title}}
+{% endblock %}
+{% block nav_blog_active %}active{% endblock %}
+
+{% block header_extends %}
+	<link rel="stylesheet" type="text/css" href="{% static 'blog/blog.css' %}">
+{% endblock %}
+
+{#页面内容#}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>{{ blog.title}}</h3>
+                    <ul class="blog_info_description">
+                            <li>作者：{{blog.author}}</li>
+                            <li>发表日期：{{blog.create_time|date:'Y-m-d G:n:s'}}</li>
+                            <li>最后修改时间：{{blog.updated_time|date:'Y-m-d G:n:s'}}</li>
+                            <li>分类：
+                                <a href="{% url 'blogs_with_type' blog.blog_type.pk %}">
+                                    {{blog.blog_type}}
+                                </a>
+                            </li>
+                    </ul>
+                            <div class="blog-content">{{ blog.content}}</div>
+                            <div class="blog-more">
+                                <p>上一篇：
+                                    {% if previous_blog %}
+                                        <a href="{% url 'blog_detail' previous_blog.pk %}">{{ previous_blog.title}}</a>
+                                    {% else %}
+                                        没有啦
+                                    {% endif %}
+
+                                </p>
+                                <p>
+                                    下一篇：
+                                    {% if next_blog %}
+                                        <a href="{% url 'blog_detail' next_blog.pk %}">{{ next_blog.title}}</a>
+                                    {% else %}
+                                        没有啦
+                                    {% endif %}
+                                </p>
+
+                            </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
